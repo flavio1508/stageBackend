@@ -37,14 +37,16 @@ const db = require('./config/db');
 
 // Sessão
 app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: true, // mudar para true se usar HTTPS em produção
-    httpOnly: true
-  }
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: true, // em produção precisa ser true (https)
+        httpOnly: true,
+        sameSite: 'none' // <- necessário entre domínios diferentes
+    }
 }));
+
 
 // Rota de login
 app.post('/api/users/login', (req, res) => {
