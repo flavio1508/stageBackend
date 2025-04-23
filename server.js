@@ -31,6 +31,8 @@ app.use(session({
     cookie: {
         secure: true,         // necessário para HTTPS
         httpOnly: true,
+        sameSite: 'none'   // <--- ESSENCIAL!
+
     }
 }));
 
