@@ -7,19 +7,18 @@ require('dotenv').config();
 
 const app = express();
 
+// Body parsers
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 // CORS
-const allowedOrigins = ['https://stagefront.onrender.com'];
 
 app.use(cors({
-  origin: allowedOrigins,
+  origin: 'https://stagefront.onrender.com',
   credentials: true,
 }));
 
 
 
-// Body parsers
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Banco de dados
 const db = require('./config/db');
@@ -31,8 +30,6 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         secure: true,         // necessário para HTTPS
-        httpOnly: true,
-        sameSite: 'none'      // necessário para permitir envio entre domínios
     }
 }));
 
