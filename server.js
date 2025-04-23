@@ -26,7 +26,7 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-app.options('*', cors()); // <- adiciona suporte ao preflight OPTIONS
+app.options('*', cors()); // suporte ao preflight OPTIONS
 
 // Body parsers
 app.use(express.json({ limit: '50mb' }));
@@ -41,12 +41,11 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: true, // em produção precisa ser true (https)
+        secure: true,
         httpOnly: true,
-        sameSite: 'none' // <- necessário entre domínios diferentes
+        sameSite: 'none'
     }
 }));
-
 
 // Rota de login
 app.post('/api/users/login', (req, res) => {
