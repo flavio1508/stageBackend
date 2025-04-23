@@ -16,14 +16,16 @@ const allowedOrigins = [
   
   app.use(cors({
     origin: function (origin, callback) {
+      // Permite chamadas do servidor (ex: Postman) sem origin
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
         callback(new Error('Not allowed by CORS'));
       }
     },
-    credentials: true
+    credentials: true // Permite envio de cookies e headers de autenticação
   }));
+  
   
 
 const db = require('./config/db'); // Importar a conexão com o banco de dados
