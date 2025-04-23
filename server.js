@@ -149,11 +149,11 @@ const payrollRouter = require('./routes/payroll');
 app.use('/api/payroll', payrollRouter);
 
 // Servir arquivos estáticos do frontend
-app.use(express.static(path.join(__dirname, '../src/build')));
+// app.use(express.static(path.join(__dirname, '../src/build')));
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../src/build', 'index.html'));
-});
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../src/build', 'index.html'));
+// });
 
 app.listen(5000, () => {
     console.log('Servidor rodando na porta 5000');
