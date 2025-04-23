@@ -8,23 +8,13 @@ require('dotenv').config();
 const app = express();
 
 // CORS
-const allowedOrigins = [
-  'http://localhost:3000',
-  'https://stagefront.onrender.com'
-];
+const allowedOrigins = ['https://stagefront.onrender.com'];
 
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: allowedOrigins,
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
 
 app.options('*', cors()); // suporte ao preflight OPTIONS
 
@@ -41,11 +31,12 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: true,
+        secure: true,         // necessário para HTTPS
         httpOnly: true,
-        sameSite: 'none'
+        sameSite: 'none'      // necessário para permitir envio entre domínios
     }
 }));
+
 
 // Rota de login
 app.post('/api/users/login', (req, res) => {
