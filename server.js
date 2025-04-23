@@ -41,7 +41,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false, // mudar para true se usar HTTPS em produção
+    secure: true, // mudar para true se usar HTTPS em produção
     httpOnly: true
   }
 }));
