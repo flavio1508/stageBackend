@@ -48,7 +48,7 @@ router.put('/me', authenticateSession, async (req, res) => {
     }
   }
 
-  const query = 'UPDATE users SET name = ?, email = ?, password = ?, birthdate = ?, ssn = ?, role = ?, photo = ? WHERE id = ?';
+  const query = 'UPDATE users SET name = $1, email = $2, password = $3, birthdate = $4, ssn = $5, role = $6, photo = $7 WHERE id = $8';
   db.query(query, [name, email, hashedPassword,  birthdate, ssn, role, photo, userId], (err, results) => {
     if (err) {
       console.error('Erro no servidor:', err);
