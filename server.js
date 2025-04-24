@@ -31,7 +31,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: isProduction,          // Só usar secure em produção
+        secure: true,          // Só usar secure em produção
         httpOnly: true,
         sameSite: isProduction ? 'None' : 'Lax', // SameSite None só em produção
     }
