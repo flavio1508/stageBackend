@@ -104,7 +104,7 @@ app.post('/api/users/login', (req, res) => {
                     console.log('Senha incorreta para o usuário:', email);
 
                     // Incrementar o contador de tentativas de login
-                    const incrementAttemptsQuery = 'UPDATE users SET loginattempts = loginattempts + 1 WHERE email = $1';
+                    const incrementAttemptsQuery = 'UPDATE users SET loginAttempts = loginAttempts + 1 WHERE email = $1';
                     db.query(incrementAttemptsQuery, [email], (err, results) => {
                         if (err) {
                             console.error('Erro ao incrementar tentativas de login:', err);
