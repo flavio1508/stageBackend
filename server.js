@@ -24,15 +24,16 @@ app.use(cors({
 const db = require('./config/db');
 
 // Sessão
+const isProduction = process.env.NODE_ENV === 'production';
+
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: true,         // necessário para HTTPS
+        secure: isProduction,          // Só usar secure em produção
         httpOnly: true,
-        sameSite: 'none'   // <--- ESSENCIAL!
-
+        sameSite: isProduction ? 'None' : 'Lax', // SameSite None só em produção
     }
 }));
 
