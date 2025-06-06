@@ -1,12 +1,12 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
-const db = new Pool({
+const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false, // necessário para Neon e alguns outros serviços
-  },
+  ssl: { rejectUnauthorized: false },
+  connectionTimeoutMillis: 5000, // espera até 5 segundos
 });
+
 
 db.connect(err => {
   if (err) {
