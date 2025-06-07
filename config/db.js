@@ -1,19 +1,20 @@
 const { Pool } = require('pg');
 require('dotenv').config();
 
-const db = new Pool({
+const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
-    rejectUnauthorized: false, // necessário para Neon e alguns outros serviços
+    rejectUnauthorized: false,
   },
 });
 
-db.connect(err => {
-  if (err) {
-    console.error('Erro ao conectar ao banco de dados PostgreSQL:', err);
-  } else {
+pool
+  .query('SELECT NOW()') // pequeno teste para forçar conexão ao carregar
+  .then(() => {
     console.log('Conectado ao banco de dados PostgreSQL');
-  }
-});
+  })
+  .catch(err => {
+    console.error('Erro ao conectar ao banco de dados PostgreSQL:', err);
+  });
 
-module.exports = db;
+module.exports = pool;
