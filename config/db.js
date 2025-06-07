@@ -3,19 +3,18 @@ require('dotenv').config();
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false },
-  connectionTimeoutMillis: 5000,
-  idleTimeoutMillis: 30000,
-  max: 10, // número máximo de conexões simultâneas
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
-pool.connect()
-  .then(client => {
-    console.log('✅ Conectado ao banco de dados PostgreSQL');
-    client.release();
+pool
+  .query('SELECT NOW()') // pequeno teste para forçar conexão ao carregar
+  .then(() => {
+    console.log('Conectado ao banco de dados PostgreSQL');
   })
   .catch(err => {
-    console.error('❌ Erro ao conectar ao banco de dados PostgreSQL:', err);
+    console.error('Erro ao conectar ao banco de dados PostgreSQL:', err);
   });
 
 module.exports = pool;
