@@ -96,10 +96,11 @@ exports.getUserProfile = async (req, res) => {
     const result = await db.query(query, [id]);
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Usuário não encontrado' });
+      return res.status(404).json({ error: 'User not found' });
     }
-
-    res.status(200).json(result.rows[0]);
+    
+    res.json({ message: 'User updated successfully', user: result.rows[0] });
+    
   } catch (err) {
     console.error('Erro ao buscar informações do usuário:', err);
     res.status(500).json({ error: 'Erro ao buscar informações do usuário' });
