@@ -3,6 +3,8 @@ const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
 const path = require('path');
+const helmet = require('helmet');
+
 require('dotenv').config();
 
 const app = express();
