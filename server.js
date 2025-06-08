@@ -17,7 +17,11 @@ app.use(cors({
   credentials: true,
 }));
 
-
+app.use(helmet({
+    crossOriginEmbedderPolicy: false,
+    contentSecurityPolicy: false
+  }));
+  
 
 
 // Banco de dados
