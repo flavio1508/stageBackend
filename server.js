@@ -37,10 +37,11 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: isProduction, // apenas true em produção
+        secure: isProduction, 
         httpOnly: true,
-        sameSite: 'None' // Importante para cross-site cookies
-    }
+        sameSite: isProduction ? 'None' : 'lax',
+      },
+      
   }));
   
 
