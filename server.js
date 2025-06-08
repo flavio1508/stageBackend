@@ -37,7 +37,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: true, // Obrigatório em produção com HTTPS
+        secure: isProduction, // apenas true em produção
         httpOnly: true,
         sameSite: 'None' // Importante para cross-site cookies
     }
