@@ -24,6 +24,7 @@ app.use(helmet({
     contentSecurityPolicy: false
   }));
   
+app.set('trust proxy', 1);
 
 
 // Banco de dados
@@ -33,16 +34,18 @@ const db = require('./config/db');
 const isProduction = process.env.NODE_ENV === 'production';
 
 app.use(session({
+    name: 'connect.sid',
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
-        secure: isProduction, 
-        httpOnly: true,
-        sameSite: isProduction ? 'None' : 'lax',
-      },
-      
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? 'None' : 'Lax',
+      maxAge: 1000 * 60 * 60 * 2
+    }
   }));
+  
   
 
 
