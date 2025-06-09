@@ -1,62 +1,32 @@
 const express = require('express');
 const cors = require('cors');
-const bcrypt = require('bcryptjs');
 const session = require('express-session');
-const path = require('path');
-const helmet = require('helmet');
-
 require('dotenv').config();
 
 const app = express();
+
 app.set('trust proxy', 1);
 
-// Body parsers
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
-// CORS
+app.use(cors({
+  origin: 'https://stagefront.onrender.com', // substitua aqui
+  credentials: true
+}));
 
-const allowedOrigins = [
-    'https://stagefront.onrender.com',
-    'http://localhost:3000'
-  ];
-  
-  app.use(cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Não permitido pelo CORS'));
-      }
-    },
-    credentials: true
-  }));
-  
-
-app.use(helmet({
-    crossOriginEmbedderPolicy: false,
-    contentSecurityPolicy: false
-  }));
-  
-
-
-// Banco de dados
-const db = require('./config/db');
-
-// Sessão
-const isProduction = process.env.NODE_ENV === 'production';
+app.use(express.json());
 
 app.use(session({
-    name: 'connect.sid',
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: true,
-      secure: true,                     // esse 'true' funciona corretamente AGORA com trust proxy ativado antes
-      sameSite: 'None',
-      maxAge: 1000 * 60 * 60 * 2
-    }
-  }));
+  name: 'token',
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: true, // HTTPS obrigatório
+    httpOnly: true,
+    sameSite: 'none',
+    maxAge: 1000 * 60 * 60 * 24 // 1 dia
+  }
+}));
+
   
   
 
