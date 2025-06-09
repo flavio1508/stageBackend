@@ -15,10 +15,22 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 // CORS
 
-app.use(cors({
-  origin: 'https://stagefront.onrender.com',
-  credentials: true,
-}));
+const allowedOrigins = [
+    'https://stagefront.onrender.com',
+    'http://localhost:3000'
+  ];
+  
+  app.use(cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Não permitido pelo CORS'));
+      }
+    },
+    credentials: true
+  }));
+  
 
 app.use(helmet({
     crossOriginEmbedderPolicy: false,
