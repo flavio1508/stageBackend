@@ -13,20 +13,27 @@ app.use(cors({
 }));
 
 app.use(express.json());
+  
+
+
+// Banco de dados
+const db = require('./config/db');
+
+// Sessão
+const isProduction = process.env.NODE_ENV === 'production';
 
 app.use(session({
-  name: 'token',
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: true, // HTTPS obrigatório
-    httpOnly: true,
-    sameSite: 'none',
-    maxAge: 1000 * 60 * 60 * 24 // 1 dia
-  }
-}));
-
+    name: 'connect.sid',
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: true,                     // esse 'true' funciona corretamente AGORA com trust proxy ativado antes
+      sameSite: 'None',
+      maxAge: 1000 * 60 * 60 * 2
+    }
+  }));
   
   
 
