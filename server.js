@@ -8,6 +8,7 @@ const helmet = require('helmet');
 require('dotenv').config();
 
 const app = express();
+app.set('trust proxy', 1);
 
 // Body parsers
 app.use(express.json({ limit: '50mb' }));
@@ -24,7 +25,6 @@ app.use(helmet({
     contentSecurityPolicy: false
   }));
   
-app.set('trust proxy', 1);
 
 
 // Banco de dados
@@ -40,8 +40,8 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: isProduction,
-      sameSite: isProduction ? 'None' : 'Lax',
+      secure: true,                     // esse 'true' funciona corretamente AGORA com trust proxy ativado antes
+      sameSite: 'None',
       maxAge: 1000 * 60 * 60 * 2
     }
   }));
