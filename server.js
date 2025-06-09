@@ -1,18 +1,41 @@
 const express = require('express');
 const cors = require('cors');
+const bcrypt = require('bcryptjs');
 const session = require('express-session');
+const path = require('path');
+const helmet = require('helmet');
+
 require('dotenv').config();
 
 const app = express();
-
 app.set('trust proxy', 1);
 
-app.use(cors({
-  origin: 'https://stagefront.onrender.com', // substitua aqui
-  credentials: true
-}));
+// Body parsers
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+// CORS
 
-app.use(express.json());
+const allowedOrigins = [
+    'https://stagefront.onrender.com',
+    'http://localhost:3000'
+  ];
+  
+  app.use(cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Não permitido pelo CORS'));
+      }
+    },
+    credentials: true
+  }));
+  
+
+app.use(helmet({
+    crossOriginEmbedderPolicy: false,
+    contentSecurityPolicy: false
+  }));
   
 
 
